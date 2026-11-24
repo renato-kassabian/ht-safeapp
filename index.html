@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -45,7 +45,7 @@
   .wallpaper svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 
   /* ---------- Ícones na área de trabalho ---------- */
-  .desktop { position: fixed; top: calc(var(--menubar-h) + 14px); right: 16px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; z-index: 1; }
+  .desktop { position: fixed; top: calc(var(--menubar-h) + 14px); left: 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; z-index: 1; }
   .dicon { width: 92px; padding: 4px 0 2px; display: flex; flex-direction: column; align-items: center; gap: 5px; border: 0; background: none; cursor: default; font: inherit; color: inherit; border-radius: 8px; }
   .dicon svg { width: 64px; height: 64px; display: block; filter: drop-shadow(0 3px 5px rgba(0,0,0,.3)); }
   .dicon .lbl { max-width: 100%; padding: 1px 7px; border-radius: 5px; font-size: 12px; line-height: 1.3; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
@@ -53,7 +53,16 @@
   .dicon.sel svg { filter: drop-shadow(0 3px 5px rgba(0,0,0,.3)) brightness(.8); }
   .dicon.sel { background: rgba(255,255,255,.16); }
   .dicon.sel .lbl { background: #0a60ff; text-shadow: none; }
-  @media (max-width: 720px) { .dicon svg { width: 52px; height: 52px; } .dicon { width: 76px; } .desktop { right: 8px; } }
+  @media (max-width: 720px) { .dicon svg { width: 52px; height: 52px; } .dicon { width: 76px; } .desktop { left: 8px; } }
+
+  /* ---------- Seletor de idioma (canto superior direito) ---------- */
+  .langtog { position: fixed; top: calc(var(--menubar-h) + 12px); right: 16px; z-index: 4; display: flex; gap: 2px; padding: 3px; border-radius: 999px;
+    background: rgba(40,34,80,.38); border: 1px solid rgba(255,255,255,.26);
+    backdrop-filter: blur(24px) saturate(1.5); -webkit-backdrop-filter: blur(24px) saturate(1.5); box-shadow: 0 6px 20px rgba(10,8,40,.3); }
+  .langtog button { border: 0; background: transparent; color: rgba(255,255,255,.88); font: 600 12.5px/1 var(--font); padding: 7px 13px; border-radius: 999px; cursor: pointer; }
+  .langtog button[aria-pressed="true"] { background: #fff; color: #1b1a3a; }
+  .langtog button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  @media (max-width: 720px) { .langtog { right: 8px; } }
 
   /* ---------- Menu bar ---------- */
   .menubar { position: fixed; inset: 0 0 auto 0; height: var(--menubar-h); display: flex; align-items: center; justify-content: space-between;
@@ -417,11 +426,16 @@
   </button>
 </div>
 
+<div class="langtog" role="group" aria-label="Language / Idioma">
+  <button type="button" data-lang="pt" aria-pressed="false">Português</button>
+  <button type="button" data-lang="en" aria-pressed="true">English</button>
+</div>
+
 <header class="menubar">
   <div class="left">
     <svg class="apple" viewBox="0 0 384 512" aria-label="Apple"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
     <span class="keep"><b id="appname">Finder</b></span>
-    <span>Arquivo</span><span>Editar</span><span>Visualizar</span><span>Ir</span><span>Janela</span><span>Ajuda</span>
+    <span data-i18n="m_file">File</span><span data-i18n="m_edit">Edit</span><span data-i18n="m_view">View</span><span data-i18n="m_go">Go</span><span data-i18n="m_window">Window</span><span data-i18n="m_help">Help</span>
   </div>
   <div class="right">
     <svg class="opt" viewBox="0 0 28 14" aria-label="Bateria"><rect x="1" y="2" width="22" height="10" rx="3"/><rect class="fill" x="3" y="4" width="15" height="6" rx="1.4"/><path d="M25 5.5v3"/></svg>
@@ -440,7 +454,7 @@
         <span>Account Manager</span>
       </div>
       <div class="sh-tools">
-        <span class="sh-explore">Explore SAP <svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4"/></svg></span>
+        <span class="sh-explore"><span data-i18n="h_explore">Explore SAP</span> <svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4"/></svg></span>
         <svg viewBox="0 0 24 24" aria-label="Search"><circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500L21 21"/></svg>
         <svg viewBox="0 0 24 24" aria-label="Notifications"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.500 2h-15Z"/><path d="M10 21h4"/></svg>
         <span class="sh-av sh-av--sm">M</span>
@@ -451,36 +465,36 @@
       <div class="sh-id">
         <div class="sh-av sh-av--lg">M<span class="sh-badge"><svg viewBox="0 0 24 24"><path d="M4 20l1-4L16.500 4.500a2.100 2.100 0 0 1 3 3L8 19Z"/></svg></span></div>
         <div class="sh-id__main">
-          <div class="sh-lbl">Your Universal ID</div>
+          <div class="sh-lbl" data-i18n="h_universal">Your Universal ID</div>
           <h1>Mariana Costa</h1>
           <dl class="sh-facts">
-            <div><dt>Universal ID email</dt><dd>mariana.costa@unico.io</dd></div>
-            <div><dt>Country</dt><dd>Brazil</dd></div>
-            <div><dt>Username</dt><dd>marianacosta-teste_20</dd></div>
+            <div><dt data-i18n="h_email_lbl">Universal ID email</dt><dd>mariana.costa@unico.io</dd></div>
+            <div><dt data-i18n="h_country">Country</dt><dd data-i18n="h_brazil">Brazil</dd></div>
+            <div><dt data-i18n="h_username">Username</dt><dd>marianacosta-teste_20</dd></div>
           </dl>
         </div>
-        <button class="sh-btn">Edit</button>
+        <button class="sh-btn" data-i18n="h_edit">Edit</button>
       </div>
-      <nav class="sh-tabs"><button class="on">Identities</button><button>Privacy</button></nav>
+      <nav class="sh-tabs"><button class="on" data-i18n="h_identities">Identities</button><button data-i18n="h_privacy">Privacy</button></nav>
     </div></section>
 
     <main class="sh-main"><div class="sh-wrap">
       <div class="sh-alert" data-alert>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L22 21H2Z"/><path d="M12 10v5M12 17.500v1" stroke="#fff3b8" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
-        <p>A recovery email is not associated with your Universal ID. Having a recovery email and identity will ensure your continued access to your Learning achievements and Community content.<br><a href="#" data-noop>Add email</a><button class="sh-pill" data-dismiss>Don't show again</button></p>
+        <p><span data-i18n="h_alert">A recovery email is not associated with your Universal ID. Having a recovery email and identity will ensure your continued access to your Learning achievements and Community content.</span><br><a href="#" data-noop data-i18n="h_add_email">Add email</a><button class="sh-pill" data-dismiss data-i18n="h_dont_show">Don't show again</button></p>
         <button class="sh-x" data-dismiss aria-label="Close"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
       </div>
       <div class="sh-cols">
         <section class="sh-card">
           <div class="sh-card__head">
-            <h2>Identities (1)</h2>
+            <h2 data-i18n="h_ident_count">Identities (1)</h2>
             <svg viewBox="0 0 24 24" aria-label="Search"><circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500L21 21"/></svg>
-            <button class="sh-btn sh-btn--fill sh-btn--sm">Add email</button>
-            <button class="sh-btn sh-btn--sm">Sort</button>
+            <button class="sh-btn sh-btn--fill sh-btn--sm" data-i18n="h_add_email">Add email</button>
+            <button class="sh-btn sh-btn--sm" data-i18n="h_sort">Sort</button>
           </div>
-          <div class="sh-row sh-row--th"><span>User ID</span><span>Country</span><span></span></div>
-          <div class="sh-row sh-row--grp"><span>1 identity assigned to mariana.costa@unico.io</span></div>
-          <div class="sh-row sh-row--sel"><span>P2058291736</span><span>Brazil</span><svg viewBox="0 0 12 12"><path d="M4 2l4 4-4 4"/></svg></div>
+          <div class="sh-row sh-row--th"><span data-i18n="h_userid">User ID</span><span data-i18n="h_country">Country</span><span></span></div>
+          <div class="sh-row sh-row--grp"><span><span data-i18n="h_assigned">1 identity assigned to</span> mariana.costa@unico.io</span></div>
+          <div class="sh-row sh-row--sel"><span>P2058291736</span><span data-i18n="h_brazil">Brazil</span><svg viewBox="0 0 12 12"><path d="M4 2l4 4-4 4"/></svg></div>
         </section>
         <aside class="sh-card">
           <div class="sh-who">
@@ -489,12 +503,12 @@
             <button class="sh-dots" aria-label="More">&bull;&bull;&bull;</button>
           </div>
           <div class="sh-info">
-            <h3>Identity information</h3>
+            <h3 data-i18n="h_idinfo">Identity information</h3>
             <dl>
-              <div><dt>Created on</dt><dd data-today></dd></div>
-              <div><dt>Status</dt><dd>Active</dd></div>
-              <div><dt>Last login</dt><dd data-today></dd></div>
-              <div><dt>Type</dt><dd>Public</dd></div>
+              <div><dt data-i18n="h_created">Created on</dt><dd data-today></dd></div>
+              <div><dt data-i18n="h_status">Status</dt><dd data-i18n="h_active">Active</dd></div>
+              <div><dt data-i18n="h_lastlogin">Last login</dt><dd data-today></dd></div>
+              <div><dt data-i18n="h_type">Type</dt><dd data-i18n="h_public">Public</dd></div>
             </dl>
           </div>
         </aside>
@@ -502,8 +516,8 @@
     </div></main>
 
     <footer class="sh-foot"><div class="sh-wrap sh-foot__in">
-      <span>&copy; <span data-year></span> SAP SE or an SAP affiliate company. All rights reserved.</span>
-      <nav><span>Support</span><span>Privacy</span><span>Terms of use</span><span>Legal disclosure</span><span>Cookie statement</span><span>Cookie preferences</span></nav>
+      <span>&copy; <span data-year></span> <span data-i18n="h_copy">SAP SE or an SAP affiliate company. All rights reserved.</span></span>
+      <nav><span data-i18n="h_support">Support</span><span data-i18n="h_privacy">Privacy</span><span data-i18n="h_terms">Terms of use</span><span data-i18n="h_legal">Legal disclosure</span><span data-i18n="h_cookiestmt">Cookie statement</span><span data-i18n="h_cookiepref">Cookie preferences</span></nav>
     </div></footer>
   </div>
 </template>
@@ -530,39 +544,82 @@
 
 <main class="dock-wrap">
   <nav class="dock" id="dock" aria-label="Dock">
-    <button class="item run" data-app="Finder"><span class="tip">Finder</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-finder" width="100" height="100"/></svg></button>
-    <button class="item run" data-app="Safari"><span class="tip">Safari</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-safari" width="100" height="100"/></svg></button>
-    <button class="item run" data-app="Mail"><span class="tip">Mail</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-mail" width="100" height="100"/></svg></button>
-    <button class="item" data-app="Mensagens"><span class="tip">Mensagens</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-messages" width="100" height="100"/></svg></button>
-    <button class="item" data-app="Mapas"><span class="tip">Mapas</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-maps" width="100" height="100"/></svg></button>
-    <button class="item" data-app="Fotos"><span class="tip">Fotos</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-photos" width="100" height="100"/></svg></button>
-    <button class="item" data-app="Calendário"><span class="tip">Calendário</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-calendar" width="100" height="100"/></svg></button>
-    <button class="item" data-app="Notas"><span class="tip">Notas</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-notes" width="100" height="100"/></svg></button>
-    <button class="item" data-app="Música"><span class="tip">Música</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-music" width="100" height="100"/></svg></button>
-    <button class="item" data-app="App Store"><span class="tip">App Store</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-appstore" width="100" height="100"/></svg></button>
-    <button class="item" data-app="Ajustes do Sistema"><span class="tip">Ajustes do Sistema</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-settings" width="100" height="100"/></svg></button>
+    <button class="item run" data-app="Finder"><span class="tip" data-i18n="d_finder">Finder</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-finder" width="100" height="100"/></svg></button>
+    <button class="item run" data-app="Safari"><span class="tip" data-i18n="d_safari">Safari</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-safari" width="100" height="100"/></svg></button>
+    <button class="item run" data-app="Mail"><span class="tip" data-i18n="d_mail">Mail</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-mail" width="100" height="100"/></svg></button>
+    <button class="item" data-app="Mensagens"><span class="tip" data-i18n="d_messages">Mensagens</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-messages" width="100" height="100"/></svg></button>
+    <button class="item" data-app="Mapas"><span class="tip" data-i18n="d_maps">Mapas</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-maps" width="100" height="100"/></svg></button>
+    <button class="item" data-app="Fotos"><span class="tip" data-i18n="d_photos">Fotos</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-photos" width="100" height="100"/></svg></button>
+    <button class="item" data-app="Calendário"><span class="tip" data-i18n="d_calendar">Calendário</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-calendar" width="100" height="100"/></svg></button>
+    <button class="item" data-app="Notas"><span class="tip" data-i18n="d_notes">Notas</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-notes" width="100" height="100"/></svg></button>
+    <button class="item" data-app="Música"><span class="tip" data-i18n="d_music">Música</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-music" width="100" height="100"/></svg></button>
+    <button class="item" data-app="App Store"><span class="tip" data-i18n="d_appstore">App Store</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-appstore" width="100" height="100"/></svg></button>
+    <button class="item" data-app="Ajustes do Sistema"><span class="tip" data-i18n="d_settings">Ajustes do Sistema</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-settings" width="100" height="100"/></svg></button>
 
     <span class="sep" aria-hidden="true"></span>
 
-    <button class="item" id="app-sap" data-app="SAP"><span class="tip">SAP</span><svg viewBox="0 0 100 100" aria-label="SAP"><use href="#i-sap" width="100" height="100"/></svg></button>
-    <button class="item" data-app="Lixeira"><span class="tip">Lixeira</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-trash" width="100" height="100"/></svg></button>
+    <button class="item" id="app-sap" data-app="SAP"><span class="tip" data-i18n="d_sap">SAP</span><svg viewBox="0 0 100 100" aria-label="SAP"><use href="#i-sap" width="100" height="100"/></svg></button>
+    <button class="item" data-app="Lixeira"><span class="tip" data-i18n="d_trash">Lixeira</span><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-trash" width="100" height="100"/></svg></button>
   </nav>
 </main>
 
 <script>
 (function () {
-  // Relógio e data do Calendário em português
+  // Idioma da demo: inglês por padrão. O seletor do canto superior direito troca página, experiência e home.
+  var lang = 'en';
+  var I18N = {
+    en: {
+      m_file: 'File', m_edit: 'Edit', m_view: 'View', m_go: 'Go', m_window: 'Window', m_help: 'Help',
+      d_finder: 'Finder', d_safari: 'Safari', d_mail: 'Mail', d_messages: 'Messages', d_maps: 'Maps', d_photos: 'Photos', d_calendar: 'Calendar', d_notes: 'Notes', d_music: 'Music', d_appstore: 'App Store', d_settings: 'System Settings', d_sap: 'SAP', d_trash: 'Trash',
+      h_explore: 'Explore SAP', h_universal: 'Your Universal ID', h_email_lbl: 'Universal ID email', h_country: 'Country', h_brazil: 'Brazil', h_username: 'Username', h_edit: 'Edit',
+      h_identities: 'Identities', h_privacy: 'Privacy',
+      h_alert: 'A recovery email is not associated with your Universal ID. Having a recovery email and identity will ensure your continued access to your Learning achievements and Community content.',
+      h_add_email: 'Add email', h_dont_show: "Don't show again", h_ident_count: 'Identities (1)', h_sort: 'Sort', h_userid: 'User ID', h_assigned: '1 identity assigned to',
+      h_idinfo: 'Identity information', h_created: 'Created on', h_status: 'Status', h_active: 'Active', h_lastlogin: 'Last login', h_type: 'Type', h_public: 'Public',
+      h_copy: 'SAP SE or an SAP affiliate company. All rights reserved.', h_support: 'Support', h_terms: 'Terms of use', h_legal: 'Legal disclosure', h_cookiestmt: 'Cookie statement', h_cookiepref: 'Cookie preferences'
+    },
+    pt: {
+      m_file: 'Arquivo', m_edit: 'Editar', m_view: 'Visualizar', m_go: 'Ir', m_window: 'Janela', m_help: 'Ajuda',
+      d_finder: 'Finder', d_safari: 'Safari', d_mail: 'Mail', d_messages: 'Mensagens', d_maps: 'Mapas', d_photos: 'Fotos', d_calendar: 'Calendário', d_notes: 'Notas', d_music: 'Música', d_appstore: 'App Store', d_settings: 'Ajustes do Sistema', d_sap: 'SAP', d_trash: 'Lixeira',
+      h_explore: 'Explorar SAP', h_universal: 'Seu ID Universal', h_email_lbl: 'E-mail do ID Universal', h_country: 'País', h_brazil: 'Brasil', h_username: 'Nome de usuário', h_edit: 'Editar',
+      h_identities: 'Identidades', h_privacy: 'Privacidade',
+      h_alert: 'Nenhum e-mail de recuperação está associado ao seu ID Universal. Ter um e-mail de recuperação e uma identidade garante o seu acesso contínuo às suas conquistas do Learning e ao conteúdo da Community.',
+      h_add_email: 'Adicionar e-mail', h_dont_show: 'Não mostrar novamente', h_ident_count: 'Identidades (1)', h_sort: 'Ordenar', h_userid: 'ID de usuário', h_assigned: '1 identidade atribuída a',
+      h_idinfo: 'Informações da identidade', h_created: 'Criado em', h_status: 'Status', h_active: 'Ativo', h_lastlogin: 'Último login', h_type: 'Tipo', h_public: 'Público',
+      h_copy: 'SAP SE ou uma empresa afiliada da SAP. Todos os direitos reservados.', h_support: 'Suporte', h_terms: 'Termos de uso', h_legal: 'Aviso legal', h_cookiestmt: 'Declaração de cookies', h_cookiepref: 'Preferências de cookies'
+    }
+  };
+  function applyI18n(root) {
+    root.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var v = (I18N[lang] || {})[el.getAttribute('data-i18n')];
+      if (v != null) el.textContent = v;
+    });
+    var d = new Date(), loc = lang === 'pt' ? 'pt-BR' : 'en-US';
+    var today = d.toLocaleDateString(loc, { month: 'short', day: 'numeric', year: 'numeric' });
+    root.querySelectorAll('[data-today]').forEach(function (el) { el.textContent = today; });
+    root.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = d.getFullYear(); });
+  }
+
+  // Relógio, data do Calendário e título da janela, no idioma escolhido
   function tick() {
-    var d = new Date();
-    var wd = d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
-    var mo = d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
-    var hm = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('clock').textContent = wd + ' ' + d.getDate() + ' ' + mo + '  ' + hm;
+    var d = new Date(), t1, mo, title;
+    if (lang === 'pt') {
+      var wd = d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
+      mo = d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+      var hm = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
+      t1 = wd + ' ' + d.getDate() + ' ' + mo + '  ' + hm;
+      title = cap(wd) + '. ' + d.getDate() + ' De ' + cap(mo) + '. - ' + hm + ' - SAP - v1.0.0';
+    } else {
+      var wdE = d.toLocaleDateString('en-US', { weekday: 'short' });
+      mo = d.toLocaleDateString('en-US', { month: 'short' });
+      var hmE = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      t1 = wdE + ' ' + mo + ' ' + d.getDate() + '  ' + hmE;
+      title = wdE + '. ' + mo + ' ' + d.getDate() + ' - ' + hmE + ' - SAP - v1.0.0';
+    }
+    document.getElementById('clock').textContent = t1;
     document.getElementById('calDow').textContent = mo.toUpperCase();
-    var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
-    var wdL = cap(d.toLocaleDateString('pt-BR', { weekday: 'short' }));
-    var moL = cap(d.toLocaleDateString('pt-BR', { month: 'short' }));
-    document.getElementById('wtitle').textContent = wdL + ' ' + d.getDate() + ' De ' + moL + ' - ' + hm + ' - SAP - v1.0.0';
+    document.getElementById('wtitle').textContent = title;
     document.getElementById('calDay').textContent = d.getDate();
   }
   tick(); setInterval(tick, 15000);
@@ -630,11 +687,8 @@
     f.style.transition = 'opacity .25s ease'; f.style.opacity = '0';
     setTimeout(function () {
       if (win.hidden) return;
-      var d = new Date();
-      var today = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       var frag = document.getElementById('tpl-sap-home').content.cloneNode(true);
-      frag.querySelectorAll('[data-today]').forEach(function (el) { el.textContent = today; });
-      frag.querySelector('[data-year]').textContent = d.getFullYear();
+      applyI18n(frag);
       frag.querySelectorAll('[data-dismiss]').forEach(function (b) {
         b.addEventListener('click', function () { var a = b.closest('[data-alert]'); if (a) a.remove(); });
       });
@@ -657,7 +711,7 @@
     f.title = 'Experiência Human Token';
     f.setAttribute('allow', 'camera; microphone');
     sapBody.appendChild(f);
-    loadProto().then(function (html) { f.srcdoc = html; }).catch(function () {
+    loadProto().then(function (html) { f.srcdoc = html.replace('<head>', '<head><script>window.__SAP_LANG="' + lang + '";<\/script>'); }).catch(function () {
       sapBody.textContent = 'Não foi possível carregar a experiência.';
       sapBody.style.cssText = 'display:grid;place-items:center;color:#4f4f4f;font:14px var(--font)';
     });
@@ -711,6 +765,23 @@
     win.style.top = Math.max(28, e.clientY - drag.dy) + 'px';
   });
   wbar.addEventListener('pointerup', function () { drag = null; });
+
+  // Seletor de idioma
+  function setLang(l) {
+    lang = l === 'pt' ? 'pt' : 'en';
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    document.querySelectorAll('.langtog button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false'); });
+    applyI18n(document);
+    tick();
+    var f = sapBody.querySelector('iframe');
+    if (f && f.contentWindow) f.contentWindow.postMessage({ sapLang: lang }, '*');
+    var home = sapBody.querySelector('.sh');
+    if (home) applyI18n(home);
+  }
+  document.querySelectorAll('.langtog button').forEach(function (b) {
+    b.addEventListener('click', function (e) { e.stopPropagation(); setLang(b.getAttribute('data-lang')); });
+  });
+  setLang('en');
 })();
 </script>
 </body>

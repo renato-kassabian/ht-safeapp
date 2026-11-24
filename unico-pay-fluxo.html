@@ -2660,6 +2660,8 @@ body.dv-desk .proto-drawer__panel { width: calc(236px / .82); max-width: none; z
 body.dv-desk .proto-drawer__header .btn--icon-close { display: none; }
 /* Demo SAP: sem o painel "Configurações do protótipo" */
 .proto-drawer, .more-toggle, .dv-more, .dv-menu { display: none !important; }
+/* Demo SAP: o idioma é escolhido no seletor da página hospedeira */
+.card__footer-lang { display: none !important; }
 
 /* ============ Human Payment Widget ============ */
 .uc-shop__po[data-opt] { cursor: pointer; }
@@ -5940,6 +5942,21 @@ personalizationToggle.addEventListener('click', () => {
 const slugInicial = 'human'; // demo SAP: abre direto em Human Token
 const frameLabel = window.name.startsWith('uc-frame:') ? window.name.slice(9) : null;
 const casoInicial = USE_CASES.find((c) => c.label === frameLabel) ?? useCasePorSlug(slugInicial) ?? USE_CASES.find((c) => c.slug === 'valida') ?? USE_CASES[0];
+// Demo SAP: o idioma vem da página hospedeira (inglês por padrão) e muda por mensagem.
+function aplicarIdiomaHospedeiro(code) {
+  const pt = code === 'pt';
+  currentLanguage = pt ? 0 : 1;
+  setLanguage(pt ? 'pt' : 'en');
+  applyShellTexts();
+}
+aplicarIdiomaHospedeiro(window.__SAP_LANG === 'pt' ? 'pt' : 'en');
+window.addEventListener('message', (e) => {
+  const code = e.data && e.data.sapLang;
+  if (code !== 'pt' && code !== 'en') return;
+  aplicarIdiomaHospedeiro(code);
+  if (currentScreenId === 'humanInicial' || currentScreenId === 'humanSucesso') navigate(currentScreenId);
+});
+
 useCaseControl.value = casoInicial.label;
 applyUseCaseText();
 applyExperienceText(); // "Iframe" por padrão — mesma UX de sempre
